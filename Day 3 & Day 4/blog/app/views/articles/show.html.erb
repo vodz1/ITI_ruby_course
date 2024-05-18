@@ -1,0 +1,21 @@
+<h1><%= @article.title %></h1>
+<p><%= @article.body %></p>
+<%= image_tag @article.image if @article.image.attached? %>
+
+<% if current_user == @article.user %>
+  <%= link_to "Edit", edit_article_path(@article) %>
+  <li>
+    <%= link_to "Destroy", article_path(@article), data: {
+      turbo_method: :delete,
+      turbo_confirm: "Are you sure?"
+    } %>
+  </li>
+  <%= link_to "Report", report_article_path(@article), data: {
+    turbo_method: :post,
+    turbo_confirm: "Are you sure you want to report this article?"
+  } %>
+<% end %>
+
+<h2>Comments</h2>
+<%= render @article.comments %>
+<%= render 'comments/form', article: @article %>
